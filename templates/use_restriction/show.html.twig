@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UseRestriction{% endblock %}
+
+{% block body %}
+    <h1>UseRestriction</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ use_restriction.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ use_restriction.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_use_restriction_index') }}">back to list</a>
+
+    <a href="{{ path('app_use_restriction_edit', {'id': use_restriction.id}) }}">edit</a>
+
+    {{ include('use_restriction/_delete_form.html.twig') }}
+{% endblock %}

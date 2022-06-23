@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UseRestriction index{% endblock %}
+
+{% block body %}
+    <h1>UseRestriction index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for use_restriction in use_restrictions %}
+            <tr>
+                <td>{{ use_restriction.id }}</td>
+                <td>{{ use_restriction.description }}</td>
+                <td>
+                    <a href="{{ path('app_use_restriction_show', {'id': use_restriction.id}) }}">show</a>
+                    <a href="{{ path('app_use_restriction_edit', {'id': use_restriction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_use_restriction_new') }}">Create new</a>
+{% endblock %}

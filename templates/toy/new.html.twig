@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Toy{% endblock %}
+
+{% block body %}
+    <h1>Create new Toy</h1>
+
+    {{ include('toy/_form.html.twig') }}
+
+    <a href="{{ path('app_toy_index') }}">back to list</a>
+{% endblock %}
