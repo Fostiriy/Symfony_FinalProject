@@ -109,4 +109,10 @@ class Toy
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return strval($this->getName());
+    }
+
 }

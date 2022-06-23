@@ -18,6 +18,8 @@
             <tr>
                 <td>{{ toy.id }}</td>
                 <td>{{ toy.name }}</td>
+                <td>{{ toy.category }}</td>
+                <td>{{ toy.useRestriction }}</td>
                 <td>
                     <a href="{{ path('app_toy_show', {'id': toy.id}) }}">show</a>
                     <a href="{{ path('app_toy_edit', {'id': toy.id}) }}">edit</a>
