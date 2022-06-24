@@ -42,7 +42,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a href="{{ path('app_use_restriction_new') }}">Добавить ограничение</a>
     {% endif %}
