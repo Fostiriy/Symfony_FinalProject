@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit UseRestriction{% endblock %}
+{% block title %}Изменение ограничения{% endblock %}
 
 {% block body %}
-    <h1>Edit UseRestriction</h1>
+    <h1>Изменение ограничения к использованию</h1>
 
-    {{ include('use_restriction/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('use_restriction/_form.html.twig', {'button_label': 'Обновить'}) }}
 
-    <a href="{{ path('app_use_restriction_index') }}">back to list</a>
+    <a href="{{ path('app_use_restriction_index') }}">Вернуться</a>
 
     {{ include('use_restriction/_delete_form.html.twig') }}
 {% endblock %}

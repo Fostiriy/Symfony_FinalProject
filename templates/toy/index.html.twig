@@ -1,37 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toy index{% endblock %}
+{% block title %}Игрушки{% endblock %}
 
 {% block body %}
-    <h1>Toy index</h1>
+    <h1>Игрушки</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Вид</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <th>Хотят</th>
+            {% endif %}
+            <th>Ограничения</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <th>Действия</th>
+            {% endif %}
+        </tr>
         </thead>
         <tbody>
         {% for toy in toys %}
             <tr>
                 <td>{{ toy.id }}</td>
                 <td>{{ toy.name }}</td>
-                <td>{{ toy.category }}</td>
-                <td>{{ toy.useRestriction }}</td>
+                <td><a href="{{ path('app_toy_category_show', {'id': toy.category.id}) }}">{{ toy.category }}</a></td>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <td>
+                        {% for child in toy.children %}
+                            <a href="{{ path('app_child_show', {'id': child.id}) }}">{{ child.name }}</a>
+                            <br>
+                        {% else %}
+                            —
+                        {% endfor %}
+                    </td>
+                {% endif %}
                 <td>
-                    <a href="{{ path('app_toy_show', {'id': toy.id}) }}">show</a>
-                    <a href="{{ path('app_toy_edit', {'id': toy.id}) }}">edit</a>
+                    {% if toy.useRestriction != '' %}
+                        <a href="{{ path('app_use_restriction_show', {'id': toy.useRestriction.id}) }}">{{ toy.useRestriction }}</a>
+                    {% else %}
+                        —
+                    {% endif %}
                 </td>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <td>
+                        <a href="{{ path('app_toy_edit', {'id': toy.id}) }}">Изменить</a>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Нет игрушек :(</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_toy_new') }}">Create new</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_toy_new') }}">Добавить игрушку</a>
+    {% endif %}
+
 {% endblock %}

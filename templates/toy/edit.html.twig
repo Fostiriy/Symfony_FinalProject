@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Toy{% endblock %}
+{% block title %}Изменение игрушки{% endblock %}
 
 {% block body %}
-    <h1>Edit Toy</h1>
+    <h1>Изменение данных о игрушке</h1>
 
-    {{ include('toy/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('toy/_form.html.twig', {'button_label': 'Обновить'}) }}
 
-    <a href="{{ path('app_toy_index') }}">back to list</a>
+    <a href="{{ path('app_toy_index') }}">Вернуться</a>
 
     {{ include('toy/_delete_form.html.twig') }}
 {% endblock %}

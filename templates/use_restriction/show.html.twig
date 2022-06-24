@@ -1,26 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}UseRestriction{% endblock %}
+{% block title %}Ограничение{% endblock %}
 
 {% block body %}
     <h1>UseRestriction</h1>
 
     <table class="table">
         <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ use_restriction.id }}</td>
+        </tr>
+        <tr>
+            <th>Описание</th>
+            <td>{{ use_restriction.description }}</td>
+        </tr>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <tr>
-                <th>Id</th>
-                <td>{{ use_restriction.id }}</td>
+                <th>Игрушки</th>
+                <td>
+                    {% for toy in use_restriction.toys %}
+                        <a href="{{ path('app_toy_show', {'id': toy.id}) }}">{{ toy.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </td>
             </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ use_restriction.description }}</td>
-            </tr>
+        {% endif %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_use_restriction_index') }}">back to list</a>
+    <a href="{{ path('app_use_restriction_index') }}">Вернуться</a>
 
-    <a href="{{ path('app_use_restriction_edit', {'id': use_restriction.id}) }}">edit</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_use_restriction_edit', {'id': use_restriction.id}) }}">Изменить</a>
+        {{ include('use_restriction/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('use_restriction/_delete_form.html.twig') }}
 {% endblock %}

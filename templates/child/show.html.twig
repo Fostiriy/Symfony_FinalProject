@@ -1,30 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Child{% endblock %}
+{% block title %}Ребёнок{% endblock %}
 
 {% block body %}
-    <h1>Child</h1>
+    <h1>Ребёнок</h1>
 
     <table class="table">
         <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ child.id }}</td>
+        </tr>
+        <tr>
+            <th>Имя</th>
+            <td>{{ child.name }}</td>
+        </tr>
+        <tr>
+            <th>Возраст</th>
+            <td>{{ child.age }}</td>
+        </tr>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <tr>
-                <th>Id</th>
-                <td>{{ child.id }}</td>
+                <th>Список желаемого</th>
+                <td>
+                    {% for toy in child.toys %}
+                        <a href="{{ path('app_toy_show', {'id': toy.id}) }}">{{ toy.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </td>
             </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ child.name }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ child.age }}</td>
-            </tr>
+        {% endif %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_child_index') }}">back to list</a>
+    <a href="{{ path('app_child_index') }}">Вернуться</a>
 
-    <a href="{{ path('app_child_edit', {'id': child.id}) }}">edit</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_child_edit', {'id': child.id}) }}">Изменить</a>
+        {{ include('child/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('child/_delete_form.html.twig') }}
 {% endblock %}

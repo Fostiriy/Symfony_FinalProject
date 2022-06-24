@@ -1,17 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ToyCategory index{% endblock %}
+{% block title %}Виды игрушки{% endblock %}
 
 {% block body %}
-    <h1>ToyCategory index</h1>
+    <h1>Вид игрушки</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            <th>Игрушки</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <th>Действия</th>
+            {% endif %}
+        </tr>
         </thead>
         <tbody>
         {% for toy_category in toy_categories %}
@@ -19,17 +22,28 @@
                 <td>{{ toy_category.id }}</td>
                 <td>{{ toy_category.name }}</td>
                 <td>
-                    <a href="{{ path('app_toy_category_show', {'id': toy_category.id}) }}">show</a>
-                    <a href="{{ path('app_toy_category_edit', {'id': toy_category.id}) }}">edit</a>
+                    {% for toy in toy_category.toys %}
+                        <a href="{{ path('app_toy_show', {'id': toy.id}) }}">{{ toy.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
                 </td>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <td>
+                        <a href="{{ path('app_toy_category_edit', {'id': toy_category.id}) }}">Изменить</a>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Нет категорий :(</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_toy_category_new') }}">Create new</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_toy_new') }}">Добавить категорию</a>
+    {% endif %}
 {% endblock %}

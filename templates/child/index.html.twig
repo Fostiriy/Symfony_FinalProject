@@ -1,18 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Child index{% endblock %}
+{% block title %}Дети{% endblock %}
 
 {% block body %}
-    <h1>Child index</h1>
+    <h1>Дети</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Имя</th>
+            <th>Возраст</th>
+            <th>Список желаемого</th>
+            <th>Действия</th>
+        </tr>
         </thead>
         <tbody>
         {% for child in children %}
@@ -21,17 +22,24 @@
                 <td>{{ child.name }}</td>
                 <td>{{ child.age }}</td>
                 <td>
-                    <a href="{{ path('app_child_show', {'id': child.id}) }}">show</a>
-                    <a href="{{ path('app_child_edit', {'id': child.id}) }}">edit</a>
+                    {% for toy in child.toys %}
+                        <a href="{{ path('app_toy_show', {'id': toy.id}) }}">{{ toy.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_child_edit', {'id': child.id}) }}">Изменить</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Нет детей :(</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_child_new') }}">Create new</a>
+    <a href="{{ path('app_child_new') }}">Добавить ребёнка</a>
 {% endblock %}

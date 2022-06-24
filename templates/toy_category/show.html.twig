@@ -1,26 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}ToyCategory{% endblock %}
+{% block title %}Вид игрушки{% endblock %}
 
 {% block body %}
-    <h1>ToyCategory</h1>
+    <h1>Вид игрушки</h1>
 
     <table class="table">
         <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ toy_category.id }}</td>
+        </tr>
+        <tr>
+            <th>Название</th>
+            <td>{{ toy_category.name }}</td>
+        </tr>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <tr>
-                <th>Id</th>
-                <td>{{ toy_category.id }}</td>
+                <th>Игрушки</th>
+                <td>
+                    {% for toy in toy_category.toys %}
+                        <a href="{{ path('app_toy_show', {'id': toy.id}) }}">{{ toy.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </td>
             </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ toy_category.name }}</td>
-            </tr>
+        {% endif %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_toy_category_index') }}">back to list</a>
+    <a href="{{ path('app_toy_category_index') }}">Вернуться</a>
 
-    <a href="{{ path('app_toy_category_edit', {'id': toy_category.id}) }}">edit</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_toy_category_edit', {'id': toy_category.id}) }}">Изменить</a>
+        {{ include('toy_category/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('toy_category/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,30 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Toy{% endblock %}
+{% block title %}Игрушка{% endblock %}
 
 {% block body %}
-    <h1>Toy</h1>
+    <h1>Игрушка</h1>
 
     <table class="table">
         <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ toy.id }}</td>
+        </tr>
+        <tr>
+            <th>Название</th>
+            <td>{{ toy.name }}</td>
+        </tr>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <tr>
-                <th>Id</th>
-                <td>{{ toy.id }}</td>
+                <th>Вид</th>
+                <td><a href="{{ path('app_toy_category_show', {'id': toy.category.id}) }}">{{ toy.category }}</a></td>
             </tr>
             <tr>
-                <th>Name</th>
-                <td>{{ toy.name }}</td>
+                <th>Хотят</th>
+                <td>
+                    {% for child in toy.children %}
+                        <a href="{{ path('app_child_show', {'id': child.id}) }}">{{ child.name }}</a>
+                        <br>
+                    {% else %}
+                        —
+                    {% endfor %}
+                </td>
             </tr>
             <tr>
-                <th>Category</th>
-                <td>{{ toy.category }}</td>
+                <th>Ограничения</th>
+                <td>
+                    {% if toy.useRestriction != '' %}
+                        <a href="{{ path('app_use_restriction_show', {'id': toy.useRestriction.id}) }}">{{ toy.useRestriction }}</a>
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
             </tr>
+        {% endif %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_toy_index') }}">back to list</a>
+    <a href="{{ path('app_toy_index') }}">Вернуться</a>
 
-    <a href="{{ path('app_toy_edit', {'id': toy.id}) }}">edit</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a href="{{ path('app_toy_edit', {'id': toy.id}) }}">Изменить</a>
+        {{ include('toy/_delete_form.html.twig') }}
+    {% endif %}
 
-    {{ include('toy/_delete_form.html.twig') }}
 {% endblock %}
